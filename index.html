@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#F8F7F4">
+<meta name="description" content="台灣海底撈會員成長值紀錄：四級解鎖、12 個月滾動計算、升級與保級預測。資料存在本機。">
+<title>撈點日記｜海底撈成長值管家</title>
+<style>
+:root{--bg:#f8f7f4;--panel:#fff;--line:#e9e9e4;--ink:#26342e;--muted:#7b867e;--green:#285a46;--green2:#edf5ef;--lime:#d1e0b8;--rose:#b96f65;--rosebg:#fbf0ed;--gold:#9a7335;--goldbg:#faf3e6;--shadow:0 12px 40px rgba(33,42,34,.035);--round:22px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:var(--bg);font-family:Inter,-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;font-size:14px;line-height:1.55}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.5}a{color:inherit}input,select,textarea{width:100%;min-width:0;border:1px solid #e0e6df;border-radius:12px;padding:11px 12px;background:#fff;color:var(--ink);outline:0}input:focus,select:focus,textarea:focus{border-color:#82aa90;box-shadow:0 0 0 3px #e6f1e7}textarea{resize:vertical;min-height:74px}[hidden]{display:none!important}
+.app{min-height:100dvh;display:grid;grid-template-columns:244px minmax(0,1fr)}.sidebar{background:#f3f4ef;border-right:1px solid #e8eae4;padding:29px 16px;display:flex;flex-direction:column;gap:26px;position:sticky;top:0;height:100dvh}.brand{display:flex;gap:12px;align-items:center;padding:2px 10px}.brandlogo{width:42px;height:42px;border-radius:15px;background:var(--green);display:grid;place-items:center;color:#fff;font-size:23px;font-weight:800;flex:none;box-shadow:0 7px 18px #285a4620}.brandname{font-size:17px;font-weight:850;letter-spacing:-.6px;line-height:1.3}.brandsub{font-size:10px;letter-spacing:.5px;color:#88978c;margin-top:2px}.side-label{font-size:10px;color:#a4aca5;letter-spacing:2px;font-weight:750;padding:0 14px;margin:0 0 7px}.navlist{display:grid;gap:5px}.navbtn{border:0;background:transparent;padding:13px 14px;border-radius:13px;display:flex;align-items:center;gap:13px;width:100%;text-align:left;color:#65736a;font-weight:690;font-size:13px}.navbtn:hover{background:#eaf0e9}.navbtn.active{background:#e1ebe1;color:var(--green)}.navicon{display:inline-grid;place-items:center;width:20px;height:20px;font-size:17px}.sidebottom{margin-top:auto;padding:18px 10px 5px}.privacy{border-top:1px solid #e1e5dc;padding-top:14px;color:#89968b;font-size:11px;line-height:1.7}.statusdot{display:inline-block;width:7px;height:7px;background:#6cad7a;border-radius:50%;margin-right:5px}.statusdot.off{background:#c67b61}
+.main{min-width:0;width:100%;max-width:1280px;margin:auto;padding:34px clamp(20px,4vw,54px) 70px}.page{display:none;animation:rise .2s ease}.page.active{display:block}@keyframes rise{from{opacity:.75;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}.pagehead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:25px}.eyebrow{color:#8b998f;letter-spacing:2px;font-size:10px;font-weight:800;text-transform:uppercase}.pagehead h1{font-size:clamp(23px,3.1vw,30px);margin:3px 0 2px;letter-spacing:-1.2px;line-height:1.3}.sub{font-size:12px;color:var(--muted);margin:0}.topbadge{font-size:11px;border-radius:30px;color:var(--green);background:#e9f1e9;padding:8px 13px;white-space:nowrap}.btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;padding:10px 15px;background:#fff;border:1px solid #e0e8df;color:var(--ink);font-weight:750;text-decoration:none;border-radius:12px;min-height:40px;transition:background .16s}.btn:hover{background:#f7faf7}.btn.primary{color:#fff;background:var(--green);border-color:var(--green)}.btn.primary:hover{background:#214935}.btn.soft{background:#e9f1e8;color:var(--green);border:0}.btn.danger{color:#b55151;border-color:#f0dcdc}.btn.small{font-size:12px;min-height:35px;padding:8px 12px}.btn.wide{width:100%}.actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.card{border:1px solid var(--line);background:var(--panel);border-radius:var(--round);padding:23px;box-shadow:var(--shadow)}.card h2,.card h3{letter-spacing:-.35px}.card h2{font-size:17px;margin:0 0 3px}.card h3{font-size:14px;margin:0 0 3px}.card .helper{font-size:11px;color:var(--muted);margin:0 0 17px}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:26px 0 13px}.sectionhead h2{font-size:17px;letter-spacing:-.6px;margin:0}.sectionhead p{margin:3px 0 0;font-size:11px;color:var(--muted)}.grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:16px}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0}.stat{background:#fff;border:1px solid var(--line);border-radius:17px;padding:17px 18px}.stat-label{font-size:11px;color:var(--muted)}.stat b{display:block;font-size:25px;line-height:1.5;letter-spacing:-1px;font-variant-numeric:tabular-nums;white-space:nowrap}.stat-foot{font-size:10px;color:#abb3ac}
+.hero{background:linear-gradient(130deg,#294f3f,#203c33);color:#fff;border-radius:27px;padding:30px;min-height:248px;position:relative;overflow:hidden}.hero:before{content:"";position:absolute;right:-80px;top:-105px;width:340px;height:340px;border:1px solid #ffffff23;border-radius:50%;box-shadow:0 0 0 54px #ffffff06,0 0 0 120px #ffffff05}.hero>*{position:relative}.herotop{display:flex;align-items:center;justify-content:space-between;gap:12px}.herotop .chip{font-size:11px;border:1px solid #ffffff42;padding:6px 12px;border-radius:30px;color:#d9efdc}.herolabel{font-size:11px;color:#c2d9c9;letter-spacing:1.2px}.herovalue{display:flex;align-items:end;gap:12px;margin:20px 0 3px}.herovalue strong{font-size:clamp(40px,6vw,58px);line-height:1;letter-spacing:-2px;font-variant-numeric:tabular-nums}.herovalue span{font-size:12px;color:#e1e9de;margin-bottom:5px}.herosub{color:#bcd1c2;font-size:12px;margin:13px 0 25px}.track{height:9px;background:#ffffff29;border-radius:20px;overflow:hidden}.track i{display:block;background:#cce7bb;height:100%;width:0;border-radius:20px;transition:width .3s}.tracklabels{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:9px;color:#d5e4da;font-size:11px}
+.labelchip{display:inline-flex;gap:6px;align-items:center;padding:5px 9px;border-radius:30px;background:#f2f5f0;color:#607268;font-size:11px;font-weight:750}.labelchip.good{color:#356e4c;background:#e6f3e8}.labelchip.warn{color:#986537;background:#fbf1df}.labelchip.faded{color:#a1aaa2;background:#f3f3f0}.headingrow{display:flex;align-items:center;justify-content:space-between;gap:12px}.min-cost{font-size:34px;line-height:1.2;letter-spacing:-1.8px;font-variant-numeric:tabular-nums;font-weight:830;margin:16px 0 5px}.min-cost small{font-size:15px;margin-right:4px}.softnote{background:#f7f8f4;border:1px solid #edf0e9;border-radius:13px;padding:12px 14px;font-size:11px;line-height:1.7;color:#6b776d}.softnote.warn{background:#fff9ef;border-color:#f1e8d6;color:#8c7254}.softnote.danger{background:#fff4f1;border-color:#f1dcd5;color:#935950}.kv{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid #eff0ec;font-size:12px}.kv:last-child{border:0}.kv span{color:var(--muted)}.kv b{font-weight:760;text-align:right}.tiermini{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.tierstep{border:1px solid #e7eae6;background:#fff;padding:13px 10px;border-radius:15px;min-width:0;text-align:center;position:relative}.tierstep.locked{opacity:.5}.tierstep .symbol{width:33px;height:33px;border-radius:12px;margin:0 auto 6px;display:grid;place-items:center;font-size:17px}.red .symbol{background:#fcf0ed;color:#ba6e61}.silver .symbol{background:#f0f2f3;color:#8a979f}.gold .symbol{background:#fbf1db;color:#af8242}.black .symbol{background:#2b3935;color:#fff}.tierstep b{font-size:12px;display:block}.tierstep small{font-size:10px;color:#8c9990;display:block;white-space:nowrap}.tiny{font-size:11px;color:var(--muted);line-height:1.75}.num{font-variant-numeric:tabular-nums}.twocol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:grid;gap:5px}.field.wide{grid-column:1/-1}.field label{font-size:11px;font-weight:750;color:#66766b}.field small{font-size:10px;color:#98a49a}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.inputfooter{display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}.inputfooter .primary{flex:1}.result{background:#f0f7f1;border:1px solid #deeadf;padding:14px 16px;border-radius:15px;margin-top:15px;display:flex;justify-content:space-between;align-items:center;gap:12px}.result b{font-size:24px;color:#32684d}.result small{font-size:10px;color:#7a9582}
+.filterbar{display:flex;align-items:center;justify-content:space-between;gap:9px;flex-wrap:wrap;margin-bottom:15px}.filterbar .search{max-width:210px;flex:1 1 140px}.filterbar select{max-width:148px}.filterbar input,.filterbar select{font-size:12px;min-height:37px;padding:9px 11px}.rec-list{display:grid;gap:9px}.record{display:grid;grid-template-columns:42px 1fr auto;gap:13px;align-items:center;padding:14px;border-radius:16px;border:1px solid var(--line);background:#fff}.recordicon{height:41px;width:41px;border-radius:13px;background:#edf4ed;display:grid;place-items:center;font-size:18px}.recordtop{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.recordname{font-weight:760;font-size:13px}.recordmeta{font-size:11px;color:#8a998f;margin-top:3px;overflow-wrap:anywhere}.recordnums{text-align:right}.recordnums b{display:block;font-size:15px;color:#2d7251}.recordnums small{font-size:11px;color:#7c897f}.recordbottom{grid-column:2/-1;display:flex;justify-content:flex-end;gap:6px;border-top:1px solid #f1f2ee;padding-top:8px;margin-top:-4px}.textbtn{border:0;background:transparent;color:#6b8573;font-size:11px;padding:5px 8px}.textbtn.danger{color:#bd7474}.empty{border:1px dashed #dfe6de;padding:35px 18px;text-align:center;border-radius:18px;background:#fff;color:#819286}.emptyicon{font-size:28px;margin-bottom:7px}.empty b{display:block;color:#526b5a}.empty p{font-size:11px;margin:5px 0 15px}
+.tiercard{display:grid;grid-template-columns:60px minmax(0,1fr);gap:15px;align-items:start;border:1px solid var(--line);background:#fff;border-radius:19px;padding:20px;position:relative}.tiersgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.tiersymbol{width:56px;height:56px;display:grid;place-items:center;border-radius:17px;font-size:26px}.tiercard.red .tiersymbol{background:#fbefed;color:#bd7067}.tiercard.silver .tiersymbol{background:#f2f4f5;color:#8d99a3}.tiercard.gold .tiersymbol{background:#fbf1df;color:#bb8941}.tiercard.black .tiersymbol{background:#2c3e35;color:#fff}.tiercard h3{margin:0;font-size:17px}.tiercard p{margin:5px 0;color:#879388;font-size:11px}.tiercard .range{font-weight:830;font-size:21px;letter-spacing:-.7px}.tiercard.locked .tiersymbol{filter:grayscale(.25);opacity:.65}.tier-card-footer{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid #f0f1ed;padding-top:13px;font-size:11px;color:#89968b}.milestones{display:grid;gap:0}.milestone{display:flex;gap:13px;position:relative;padding:10px 0}.mline{display:grid;place-items:start center;width:25px;flex:none}.mline:after{content:"";position:absolute;top:27px;bottom:-9px;left:12px;width:1px;background:#dfe7dd}.milestone:last-child .mline:after{display:none}.mdot{width:12px;height:12px;background:#fff;border:2px solid #cbd8cd;border-radius:50%;margin-top:4px;z-index:1}.milestone.achieved .mdot{background:#356e53;border-color:#356e53}.milestone b{font-size:12px}.milestone small{display:block;color:#8b978e;font-size:11px;margin-top:2px}
+.projection-table{width:100%;border-collapse:collapse;font-size:12px;min-width:390px}.projection-table th{text-align:left;color:#8b978b;font-size:10px;font-weight:700;padding:12px 10px;border-bottom:1px solid var(--line)}.projection-table td{padding:13px 10px;border-bottom:1px solid #eff1eb}.projection-table tr:last-child td{border-bottom:0}.tablewrap{overflow:auto}.barpair{display:flex;align-items:center;gap:5px;height:9px;min-width:65px}.barpair i{height:100%;border-radius:4px;display:block;min-width:2px;background:#dfebe1}.barpair i.plan{background:#4d9470}.forecast-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}.forecast-kpi{background:#f8faf7;border:1px solid var(--line);padding:15px;border-radius:15px}.forecast-kpi label{font-size:11px;color:var(--muted)}.forecast-kpi b{display:block;font-size:19px;margin:7px 0 3px;letter-spacing:-.4px}.forecast-kpi small{font-size:10px;color:#8d9a90}.divider{height:1px;background:var(--line);margin:18px 0}
+.toast{position:fixed;bottom:25px;left:50%;transform:translate(-50%,15px);opacity:0;pointer-events:none;background:#2b3e34;color:#fff;border-radius:13px;padding:12px 19px;z-index:200;box-shadow:0 12px 38px #1c282526;font-size:12px;transition:.22s;max-width:85%;text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}.mobilebar{display:none}.credit{font-size:10px;color:#9da89d;text-align:center;padding:30px 0 0}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+@media(max-width:1090px){.app{grid-template-columns:205px 1fr}.main{padding:27px 22px 58px}.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.tiermini{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:720px){.app{display:block}.sidebar{display:none}.main{padding:22px 15px calc(110px + env(safe-area-inset-bottom));max-width:600px}.pagehead{align-items:flex-start;margin-bottom:18px}.pagehead h1{font-size:24px}.pagehead .btn{padding:9px 11px;font-size:11px}.hero{padding:23px 22px;min-height:226px;border-radius:23px}.herovalue strong{font-size:48px}.hero:before{right:-148px}.stats{gap:10px}.stat{padding:15px;border-radius:15px}.stat b{font-size:22px}.card{padding:18px;border-radius:18px}.tiersgrid{grid-template-columns:1fr}.tiermini{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.tierstep{padding:11px 2px}.tierstep b{font-size:11px}.tierstep small{font-size:9px}.forecast-summary{grid-template-columns:1fr 1fr}.forecast-summary .forecast-kpi:last-child{grid-column:1/-1}.mobilebar{display:flex;position:fixed;bottom:0;left:0;right:0;height:calc(72px + env(safe-area-inset-bottom));padding:7px 10px calc(8px + env(safe-area-inset-bottom));gap:4px;background:#ffffffee;backdrop-filter:blur(14px);border-top:1px solid #e9eee7;z-index:80}.mobbtn{border:0;border-radius:13px;background:transparent;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#88988c;font-size:10px;font-weight:750}.mobbtn.active{color:var(--green);background:#eff5ed}.mobbtn span:first-child{font-size:20px;line-height:1.2}.toast{bottom:calc(88px + env(safe-area-inset-bottom))}.pagehead .topbadge{display:none}}
+@media(max-width:390px){.formgrid{grid-template-columns:1fr}.tiercard{padding:15px}.stats .stat b{font-size:19px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" aria-label="網站導覽">
+    <div class="brand"><div class="brandlogo">撈</div><div><div class="brandname">撈點日記</div><div class="brandsub">YOUR GROWTH JOURNEY</div></div></div>
+    <div><div class="side-label">我的會員</div><nav class="navlist" id="desktopNav">
+      <button class="navbtn active" type="button" data-page="home"><span class="navicon">⌂</span>總覽首頁</button>
+      <button class="navbtn" type="button" data-page="records"><span class="navicon">▤</span>消費紀錄</button>
+      <button class="navbtn" type="button" data-page="tiers"><span class="navicon">◈</span>會員等級</button>
+      <button class="navbtn" type="button" data-page="forecast"><span class="navicon">↗</span>升級與保級</button>
+      <button class="navbtn" type="button" data-page="settings"><span class="navicon">⚙</span>偏好設定</button>
+    </nav></div>
+    <div class="sidebottom"><div class="privacy"><span class="statusdot" id="storageDot"></span><span id="storageState">已啟用瀏覽器本機儲存</span><br>資料不會上傳伺服器；請定期備份。</div></div>
+  </aside>
+  <main class="main">
+    <section class="page active" id="page-home" aria-labelledby="homeTitle">
+      <div class="pagehead"><div><div class="eyebrow">MY DASHBOARD</div><h1 id="homeTitle">我的成長旅程</h1><p class="sub" id="todayText">從 0 點開始，逐步解鎖四個會員等級</p></div><button type="button" class="btn primary small" data-page="entry">＋ 記一筆</button></div>
+      <div class="hero"><div class="herotop"><div class="herolabel">近 12 個月成長值</div><span class="chip" id="homeTier">紅海會員</span></div><div class="herovalue"><strong id="homePoints">0</strong><span>Growth Points</span></div><div class="herosub" id="homeSub">距離銀海會員還差 2,500 點</div><div class="track"><i id="homeBar"></i></div><div class="tracklabels"><span id="homeProgress">0 / 2,500</span><span id="homePercent">0%</span></div></div>
+      <div class="stats"><div class="stat"><div class="stat-label">近 12 個月花費</div><b id="statSpend">$0</b><div class="stat-foot">截至今天的有效紀錄</div></div><div class="stat"><div class="stat-label">累積消費次數</div><b id="statVisits">0</b><div class="stat-foot">歷史已登錄堂食／其他消費</div></div><div class="stat"><div class="stat-label">離黑海還差</div><b id="statBlack">15,000</b><div class="stat-foot">以現有成長值計算</div></div><div class="stat"><div class="stat-label">下次定級</div><b id="statReview">—</b><div class="stat-foot">每月 1 日預估審核</div></div></div>
+      <div class="sectionhead"><div><h2>四海會員解鎖進度</h2><p>已解鎖的里程碑會保留，當前等級仍會依近 12 個月變動</p></div><button class="btn small" type="button" data-page="tiers">詳細等級</button></div>
+      <div class="tiermini" id="homeTiers"></div>
+      <div class="sectionhead"><div><h2>升級攻略</h2><p>依照你的有效成長值，找出下一階段的理論最低消費</p></div></div>
+      <div class="grid2"><div class="card"><div class="headingrow"><h3>下一個目標</h3><span class="labelchip good" id="homeNextLabel">銀海會員</span></div><div class="min-cost" id="homeCost">NT$ 6,250</div><p class="tiny" id="homePlan">可分次達到堂食加贈門檻，節省升級花費。</p><div class="kv"><span>直接升到黑海理論最低消費</span><b id="homeBlackCost">—</b></div><div class="softnote">最低花費是數學試算，不含已到期點數、官方優惠限制或消費規則例外，也不保證官方實際入帳。</div></div><div class="card"><div class="headingrow"><h3>下一次會員定級</h3><span class="labelchip" id="homeReviewDate">—</span></div><div style="font-size:24px;letter-spacing:-1px;font-weight:850;margin:14px 0 5px" id="homeReviewTier">紅海會員</div><p class="tiny" id="homeReviewDesc">依既有消費記錄，估計下次定級時符合的會員門檻。</p><button class="btn soft wide" type="button" data-page="forecast" style="margin-top:16px">查看保級與升級預測 ↗</button></div></div>
+      <div class="sectionhead"><div><h2>最近消費</h2><p>新紀錄會自動計入成長值</p></div><button type="button" class="btn small" data-page="records">查看全部</button></div>
+      <div id="homeRecent" class="rec-list"></div>
+    </section>
+
+    <section class="page" id="page-records" aria-labelledby="recordsTitle">
+      <div class="pagehead"><div><div class="eyebrow">SPENDING JOURNAL</div><h1 id="recordsTitle">消費紀錄</h1><p class="sub">每一次消費，都能留下對應成長值與日期</p></div><button class="btn primary small" type="button" data-page="entry">＋ 新增消費</button></div>
+      <div class="stats" style="grid-template-columns:repeat(2,1fr)"><div class="stat"><div class="stat-label">歷史總消費</div><b id="historySpend">$0</b><div class="stat-foot">所有消費紀錄（不含純點數調整）</div></div><div class="stat"><div class="stat-label">目前有效成長值</div><b id="historyPoints">0</b><div class="stat-foot">近 12 個月，排除未來日期</div></div></div>
+      <div class="card"><div class="filterbar"><input class="search" id="searchRecords" type="search" placeholder="搜尋分店／備註" aria-label="搜尋消費紀錄"><select id="filterRecords" aria-label="選擇消費紀錄範圍"><option value="all">全部紀錄</option><option value="active">近 12 個月</option><option value="expired">已超出 12 個月</option><option value="future">未來日期</option></select></div><div id="recordsList" class="rec-list"></div><div class="divider"></div><div class="actions"><button class="btn small" type="button" id="exportCSV">匯出 CSV</button><button class="btn small" type="button" id="exportJSON">備份 JSON</button></div><p class="tiny" id="recordsCount" style="margin:12px 0 0"></p></div>
+    </section>
+
+    <section class="page" id="page-entry" aria-labelledby="entryTitle">
+      <div class="pagehead"><div><div class="eyebrow">ADD A VISIT</div><h1 id="entryTitle">新增一筆消費</h1><p class="sub">可補登過往消費；日期將影響成長值效期與保級預測</p></div><button type="button" class="btn small" data-page="records">返回紀錄</button></div>
+      <div class="grid2"><div class="card"><form id="recordForm"><div class="formgrid"><div class="field"><label for="rDate">消費日期</label><input id="rDate" type="date" required></div><div class="field"><label for="rAmount">實付金額（NT$）</label><input id="rAmount" type="number" min="0" max="100000000" step="1" inputmode="numeric" value="750" required></div><div class="field"><label for="rStore">消費門市</label><input id="rStore" maxlength="70" placeholder="例如：台中中友店"></div><div class="field"><label for="rChannel">消費／調整類型</label><select id="rChannel"><option value="dinein">門市堂食</option><option value="other">外送／其他消費</option><option value="adjust">活動贈點／校正</option></select></div><div class="field"><label for="rExtra">額外活動成長值</label><input id="rExtra" type="number" min="0" max="1000000" step="1" value="0"></div><div class="field"><label for="rActual">官方實際入帳（選填）</label><input id="rActual" type="number" min="-1000000" max="1000000" step="1" placeholder="留白使用自動計算"><small>填寫則覆蓋本筆自動試算；校正可填負數</small></div><div class="field wide"><label for="rNote">備註</label><textarea id="rNote" maxlength="240" placeholder="例如：生日聚餐、優惠券、點數入帳校正…"></textarea></div></div><div class="result"><div><div style="font-size:12px;font-weight:750">本筆預估成長值</div><small id="calcDescription">基本 150 點 + 到店 150 點</small></div><b id="livePoints">300</b></div><div class="inputfooter"><button class="btn primary" id="saveRecord" type="submit">儲存紀錄</button><button class="btn" type="button" id="resetRecord">清除</button></div></form></div><aside class="card"><h3>消費怎麼換成長值？</h3><p class="helper">預設台灣公開資料常見換算方式，可於設定修改。</p><div class="kv"><span>每消費 NT$</span><b id="hintUnit">5 元 = 1 點</b></div><div class="kv"><span>堂食滿額</span><b id="hintBonus">$750 加 150 點</b></div><div class="kv"><span>成長值有效視窗</span><b>最近 12 個月</b></div><div class="divider"></div><div class="softnote warn">請優先依官方會員頁面實際成長值核對。手動填入「官方實際入帳」後，該筆會以你輸入的點數計算；若是補錄活動點數，可使用「活動贈點／校正」。</div><div class="softnote" style="margin-top:10px">同一筆結帳請只建立一筆紀錄，以免重複計算。月底或跨月補登仍以原消費日期判斷有效期。</div></aside></div>
+    </section>
+
+    <section class="page" id="page-tiers" aria-labelledby="tiersTitle">
+      <div class="pagehead"><div><div class="eyebrow">MEMBERSHIP LADDER</div><h1 id="tiersTitle">會員等級圖鑑</h1><p class="sub">紅海 → 銀海 → 金海 → 黑海，逐級達成里程碑</p></div><span class="topbadge" id="tierBadge">目前預估：紅海會員</span></div>
+      <div class="tiersgrid" id="tierCards"></div>
+      <div class="sectionhead"><div><h2>我的解鎖歷程</h2><p>根據手動登錄的交易日期推算首次成長值達標日</p></div></div><div class="card"><div class="milestones" id="milestones"></div><div class="softnote">「已解鎖」代表你紀錄中的成長值曾達到該門檻，不保證官方當天就升級。正式會員等級可能在每月 1 日審核，且可能受到降級限制或其他規則影響。</div></div>
+    </section>
+
+    <section class="page" id="page-forecast" aria-labelledby="forecastTitle">
+      <div class="pagehead"><div><div class="eyebrow">FUTURE PROJECTION</div><h1 id="forecastTitle">升級與保級預測</h1><p class="sub">以歷史每筆日期滾動計算，模擬未來會員等級</p></div><span class="topbadge">情境試算 · 非官方結果</span></div>
+      <div class="forecast-summary"><div class="forecast-kpi"><label>目前有效成長值</label><b id="forecastCurrent">0</b><small>按今天往回 12 個月</small></div><div class="forecast-kpi"><label>下一等級缺口</label><b id="forecastGap">2,500</b><small id="forecastGapLabel">距離銀海會員</small></div><div class="forecast-kpi"><label>首次保級門檻風險</label><b id="forecastRisk">尚無</b><small id="forecastRiskDesc">從現有等級出發</small></div></div>
+      <div class="sectionhead"><div><h2>規劃你的未來消費</h2><p>輸入預計每月來店次數與每次消費，系統生成 24 個月情境</p></div></div>
+      <div class="grid2"><div class="card"><form id="forecastForm"><div class="formgrid"><div class="field"><label for="fVisits">每月預計消費次數</label><input id="fVisits" type="number" min="0" max="60" step="1" value="2" required></div><div class="field"><label for="fAmount">平均每次花費（NT$）</label><input id="fAmount" type="number" min="0" max="10000000" step="1" value="750" required></div><div class="field wide"><label for="fStart">開始模擬月份</label><input id="fStart" type="month" required><small>預設下個月；每月用餐日期會平均分散在該月</small></div></div><div class="result"><div><div style="font-size:12px;font-weight:750">每月預估新增成長值</div><small id="fHint">每次 300 點 × 2 次</small></div><b id="fMonthly">600</b></div><button class="btn primary wide" type="submit" style="margin-top:13px">更新升級與保級預測</button></form></div><div class="card"><h3>升級里程碑預測</h3><p class="helper">依選擇的固定月消費計畫，定級日達標時顯示</p><div id="upgradePredictions" class="milestones"></div><div class="softnote warn">未來交易是模擬資料，不會自動加入實際消費紀錄。若你停止消費，舊成長值仍會逐漸移出近 12 個月視窗。</div></div></div>
+      <div class="sectionhead"><div><h2>不再消費的保級風險</h2><p>假設從現在起不再新增成長值，觀察未來每月 1 日的門檻變化</p></div></div>
+      <div class="card"><div class="headingrow"><div><h3 id="noSpendTitle">目前尚未達銀海</h3><p class="helper" id="noSpendDescription">補齊歷史紀錄後可看出到期變動</p></div><span class="labelchip warn" id="noSpendBadge">風險試算</span></div><div id="expiryList" class="rec-list"></div><div id="keepCostBox" class="result" hidden><div><div style="font-size:12px;font-weight:750">保住目前等級的理論補差費用</div><small id="keepCostDescription">依風險月份的成長值缺口估算</small></div><b id="keepCost">—</b></div></div>
+      <div class="sectionhead"><div><h2>未來 12 次定級對照</h2><p>每月 1 日統計之前 12 個完整月份；比較「停止消費」與「計畫消費」</p></div></div>
+      <div class="card" style="padding-top:7px"><div class="tablewrap"><table class="projection-table"><thead><tr><th>定級月份</th><th>不再消費</th><th>計畫消費</th><th>等級情境</th></tr></thead><tbody id="forecastRows"></tbody></table></div><div class="softnote" style="margin-top:16px">計算的是「門檻對應的推估等級」，不是官方的逐月升降級結果。官方可能採逐級降等、降級冷卻期、延後入帳或其他認定方式，實際保級請以會員中心顯示為準。</div></div>
+    </section>
+
+    <section class="page" id="page-settings" aria-labelledby="settingsTitle">
+      <div class="pagehead"><div><div class="eyebrow">PREFERENCES & DATA</div><h1 id="settingsTitle">設定與資料備份</h1><p class="sub">規則改變時可修改；所有紀錄留在這個瀏覽器</p></div></div>
+      <div class="grid2"><div class="card"><h2>會員等級與成長值規則</h2><p class="helper">門檻參考台灣常見公開資訊，若官方畫面不同，請自行修改。</p><form id="settingsForm"><div class="formgrid"><div class="field"><label for="sSilver">銀海門檻</label><input id="sSilver" type="number" min="1" max="10000000" step="1" required></div><div class="field"><label for="sGold">金海門檻</label><input id="sGold" type="number" min="2" max="10000000" step="1" required></div><div class="field wide"><label for="sBlack">黑海門檻</label><input id="sBlack" type="number" min="3" max="10000000" step="1" required></div><div class="field"><label for="sUnit">每幾元取得 1 點</label><input id="sUnit" type="number" min="1" max="10000" step="1" required></div><div class="field"><label for="sThreshold">堂食加贈門檻（NT$）</label><input id="sThreshold" type="number" min="1" max="1000000" step="1" required></div><div class="field wide"><label for="sBonus">堂食滿額加贈成長值</label><input id="sBonus" type="number" min="0" max="1000000" step="1" required></div></div><button class="btn primary wide" type="submit" style="margin-top:17px">儲存規則設定</button></form><p class="tiny" style="margin-top:12px">更改換算規則，會重新試算所有未填「官方實際入帳」的消費；已手動校正的紀錄不受影響。</p></div><div class="card"><h2>資料備份與還原</h2><p class="helper">localStorage 本機保存，不使用帳號或雲端同步</p><div class="kv"><span>已登錄紀錄</span><b id="settingRecordCount">0 筆</b></div><div class="kv"><span>儲存狀態</span><b id="settingStorage">正常</b></div><div class="actions" style="margin-top:16px"><button class="btn primary" id="settingJSON" type="button">匯出 JSON 備份</button><button class="btn" id="settingImport" type="button">匯入 JSON</button></div><div class="actions" style="margin-top:9px"><button class="btn" id="settingCSV" type="button">匯出 CSV</button><button class="btn danger" id="settingErase" type="button">清空全部資料</button></div><input hidden type="file" id="importFile" accept="application/json,.json"><div class="divider"></div><div class="softnote warn">使用無痕模式、清除網站資料或更換瀏覽器，都可能導致紀錄消失。建議定期按「匯出 JSON 備份」。</div><div class="softnote" style="margin-top:10px">舊版 v1 備份可以匯入消費紀錄，但不會匯入舊的 6,188 點基準值，確保從 0 點依交易重算。</div></div></div>
+    </section>
+    <div class="credit">Haidilao growth diary · 非海底撈官方產品 · 會員等級及成長值以官方為準</div>
+  </main>
+</div>
+<nav class="mobilebar" id="mobileNav" aria-label="手機分頁導覽">
+  <button class="mobbtn active" type="button" data-page="home"><span>⌂</span><span>總覽</span></button>
+  <button class="mobbtn" type="button" data-page="records"><span>▤</span><span>消費</span></button>
+  <button class="mobbtn" type="button" data-page="tiers"><span>◈</span><span>等級</span></button>
+  <button class="mobbtn" type="button" data-page="forecast"><span>↗</span><span>預測</span></button>
+  <button class="mobbtn" type="button" data-page="settings"><span>⚙</span><span>設定</span></button>
+</nav>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script>
+(()=>{'use strict';
+  const KEY='hdl-growth-tracker-v2';
+  const DEFAULT={version:2,settings:{silver:2500,gold:7500,black:15000,unit:5,threshold:750,bonus:150},records:[],plan:null};
+  const names=['紅海','銀海','金海','黑海'];
+  const colors=['red','silver','gold','black'];
+  const icons=['✿','◇','✦','♛'];
+  const $=id=>document.getElementById(id);
+  const nf=new Intl.NumberFormat('zh-TW',{maximumFractionDigits:0});
+  const fmt=n=>nf.format(Math.round(n));
+  const money=n=>'NT$ '+fmt(n);
+  const clone=o=>JSON.parse(JSON.stringify(o));
+  const int=(v,d=0)=>Number.isFinite(Number(v))?Math.trunc(Number(v)):d;
+  const localISO=(d=new Date())=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  const parseDate=s=>new Date(s+'T12:00:00');
+  const validDate=s=>typeof s==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(s)&&!Number.isNaN(parseDate(s).getTime())&&localISO(parseDate(s))===s;
+  const monthFirst=s=>s.slice(0,7)+'-01';
+  function addMonths(s,count){const d=parseDate(monthFirst(s));d.setMonth(d.getMonth()+count);return localISO(d);}
+  function subtractMonths(s,n){const d=parseDate(s),day=d.getDate();d.setDate(1);d.setMonth(d.getMonth()-n);const max=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();d.setDate(Math.min(day,max));return localISO(d);}
+  function safe(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+  function normalize(obj){
+    if(!obj||typeof obj!=='object'||!Array.isArray(obj.records))throw Error('備份資料格式不正確');
+    const s={...DEFAULT.settings,...(obj.version===1?{black:obj.settings?.target}:obj.settings||{})};
+    for(const k of ['silver','gold','black','unit','threshold','bonus'])s[k]=int(s[k],DEFAULT.settings[k]);
+    if(!(s.silver>0&&s.gold>s.silver&&s.black>s.gold&&s.unit>0&&s.threshold>0&&s.bonus>=0)||s.black>10000000||s.threshold>1000000||s.bonus>1000000||s.unit>10000)throw Error('會員門檻或換算設定不合理');
+    if(obj.records.length>20000)throw Error('紀錄超過安全匯入上限（20,000 筆）');
+    const ids=new Set(), records=obj.records.map((r,i)=>{
+      if(!r||!validDate(r.date))throw Error(`第 ${i+1} 筆日期錯誤`);
+      const amount=int(r.amount,-1),extra=int(r.extra), channel=['dinein','other','adjust'].includes(r.channel)?r.channel:'dinein';
+      const actual=r.actual===''||r.actual==null?null:int(r.actual,NaN);
+      if(amount<0||amount>100000000||extra<0||extra>1000000||(actual!==null&&(!Number.isFinite(actual)||Math.abs(actual)>1000000))||(channel!=='adjust'&&actual!==null&&actual<0))throw Error(`第 ${i+1} 筆金額或點數錯誤`);
+      let id=String(r.id||'').slice(0,100);if(!id||ids.has(id))id=`import-${i}-${cryptoId()}`;ids.add(id);
+      return {id,date:r.date,amount,extra,actual,channel,store:String(r.store||'').slice(0,70),note:String(r.note||'').slice(0,240)};
+    });
+    const x=obj.plan, start=addMonths(localISO(),1).slice(0,7);
+    const plan=x&&Number.isInteger(x.visits)&&x.visits>=0&&x.visits<=60&&Number.isInteger(x.amount)&&x.amount>=0&&x.amount<=10000000&&typeof x.start==='string'&&/^\d{4}-(0[1-9]|1[0-2])$/.test(x.start)&&x.start>=localISO().slice(0,7)&&x.start<=addMonths(localISO(),24).slice(0,7)?{visits:x.visits,amount:x.amount,start:x.start}:{visits:2,amount:750,start};
+    return {version:2,settings:s,records,plan};
+  }
+  function cryptoId(){return String(Date.now())+'-'+Math.random().toString(36).slice(2,10);}
+  let state=clone(DEFAULT),canStore=true,editId=null,currentPage='home',timer,plan={visits:2,amount:750,start:addMonths(localISO(),1).slice(0,7)};
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(state));canStore=true;}catch(e){canStore=false;toast('儲存失敗，請立即匯出 JSON 備份');}storageUI();}
+  function load(){try{const raw=localStorage.getItem(KEY);if(raw){state=normalize(JSON.parse(raw));plan=state.plan||plan;}localStorage.setItem('__hdl_test','1');localStorage.removeItem('__hdl_test');}catch(e){canStore=false;toast('資料讀取或本機儲存失敗；請使用 JSON 備份');}storageUI();}
+  function storageUI(){if(!$('storageDot'))return;$('storageDot').classList.toggle('off',!canStore);$('storageState').textContent=canStore?'已啟用瀏覽器本機儲存':'本機儲存不可用';$('settingStorage').textContent=canStore?'正常':'不可用，請備份';}
+  function toast(msg){const e=$('toast');e.textContent=msg;e.classList.add('show');clearTimeout(timer);timer=setTimeout(()=>e.classList.remove('show'),2900);}
+  function getPoints(r,s=state.settings){if(r.actual!==null)return r.actual;return Math.floor(r.amount/s.unit)+(r.channel==='dinein'&&r.amount>=s.threshold?s.bonus:0)+r.extra;}
+  function rolling(date,records=state.records,review=false){
+    const cutoff=review?addMonths(date,-12):subtractMonths(date,12);
+    let total=0;for(const r of records){if(r.date>=cutoff&&(review?r.date<date:r.date<=date))total+=getPoints(r);}
+    return Math.max(0,total);
+  }
+  function activeRecords(date=localISO()){const cutoff=subtractMonths(date,12);return state.records.filter(r=>r.date>=cutoff&&r.date<=date);}
+  function level(p){const s=state.settings;return p>=s.black?3:p>=s.gold?2:p>=s.silver?1:0;}
+  function threshold(l){return [0,state.settings.silver,state.settings.gold,state.settings.black][l];}
+  function tierName(l){return names[l]+'會員';}
+  function nextReview(){return addMonths(monthFirst(localISO()),1);}
+  function achievements(){
+    const rows=[...state.records].filter(r=>r.date<=localISO()).sort((a,b)=>a.date.localeCompare(b.date));
+    const first=[null,null,null,null];if(rows.length)first[0]=rows[0].date;
+    const dates=[...new Set(rows.map(r=>r.date))];
+    let high=0;for(const d of dates){const points=rolling(d);high=Math.max(high,points);for(let lv=1;lv<4;lv++)if(first[lv]===null&&points>=threshold(lv))first[lv]=d;}
+    return {first,high};
+  }
+  function minPlan(need){
+    if(need<=0)return{cost:0,visits:0,baseVisits:0,last:0};
+    const {unit,threshold:thr,bonus}=state.settings;
+    const pointsAtThreshold=Math.floor(thr/unit)+bonus;
+    let best={cost:need*unit,visits:1,baseVisits:0,last:need*unit};
+    const limit=Math.ceil(need/Math.max(1,pointsAtThreshold))+1;
+    for(let n=1;n<=Math.min(limit,20000);n++){
+      const remaining=Math.max(0,need-n*pointsAtThreshold);
+      const bump=remaining===0?0:(unit-(thr%unit))+(remaining-1)*unit;
+      const cost=n*thr+bump;
+      if(cost<best.cost){best={cost,visits:n,baseVisits:n-1,last:thr+bump};}
+    }
+    return best;
+  }
+  function planLabel(r){if(r.visits===0)return'已達成目標';if(r.visits===1)return`單次理論消費 ${money(r.cost)}`;if(r.baseVisits===0)return`單次理論消費 ${money(r.cost)}`;return`${r.baseVisits} 次消費 ${money(state.settings.threshold)}，再 1 次 ${money(r.last)}`;}
+  function recordHTML(r){
+    const point=getPoints(r);const now=localISO();const cutoff=subtractMonths(now,12);
+    const tag=r.date>now?'未來':r.date<cutoff?'已過 12 個月':'有效';
+    const type=r.channel==='adjust'?'活動／校正':r.channel==='other'?'外送／其他':'門市堂食';
+    return `<div class="record"><div class="recordicon">${r.channel==='adjust'?'✧':'♨'}</div><div><div class="recordtop"><span class="recordname">${safe(r.store||type)}</span><span class="labelchip ${tag==='有效'?'good':tag==='已過 12 個月'?'faded':'warn'}">${tag}</span></div><div class="recordmeta">${safe(r.date)} · ${type}${r.note?' · '+safe(r.note):''}</div></div><div class="recordnums"><b>${point>=0?'+':''}${fmt(point)} 點</b><small>${money(r.amount)}</small></div><div class="recordbottom"><button type="button" class="textbtn" data-edit="${safe(r.id)}">編輯</button><button type="button" class="textbtn danger" data-delete="${safe(r.id)}">刪除</button></div></div>`;
+  }
+  function empty(text='還沒有任何消費紀錄',action=true){return `<div class="empty"><div class="emptyicon">♨</div><b>${safe(text)}</b><p>手動補登過往消費或新增今天的紀錄，就能看見成長進度</p>${action?'<button type="button" class="btn soft small" data-page="entry">＋ 新增消費</button>':''}</div>`;}
+  function renderHome(){
+    const now=localISO(),points=rolling(now),lvl=level(points),next=Math.min(lvl+1,3),goal=threshold(next),needed=Math.max(0,goal-points),ach=achievements();
+    $('todayText').textContent=`截至 ${now} · 資料依每筆消費日期計算`;
+    $('homeTier').textContent=tierName(lvl)+' · 試算';$('homePoints').textContent=fmt(points);
+    $('homeSub').textContent=lvl===3?'已達黑海門檻，記得留意保級日期':`距離${tierName(next)}還差 ${fmt(needed)} 點`;
+    const lower=lvl===3?0:threshold(lvl),upper=lvl===3?threshold(3):goal;
+    const pct=lvl===3?100:Math.min(100,Math.max(0,(points-lower)/(upper-lower)*100));
+    $('homeBar').style.width=pct+'%';$('homeProgress').textContent=lvl===3?`${fmt(points)} / ${fmt(upper)}`:`${fmt(points)} / ${fmt(goal)}`;$('homePercent').textContent=pct.toFixed(1)+'%';
+    $('statSpend').textContent=money(activeRecords(now).reduce((a,r)=>a+(r.channel==='adjust'?0:r.amount),0));
+    $('statVisits').textContent=fmt(state.records.filter(r=>r.date<=now&&r.channel!=='adjust').length);
+    $('statBlack').textContent=fmt(Math.max(0,threshold(3)-points));
+    const review=nextReview();$('statReview').textContent=review.slice(5).replace('-','/');
+    $('homeTiers').innerHTML=names.map((n,i)=>`<div class="tierstep ${colors[i]} ${i>0&&!ach.first[i]?'locked':''}"><div class="symbol">${icons[i]}</div><b>${n}</b><small>${i===0||ach.first[i]?'✓ 已解鎖':fmt(threshold(i))+' 點'}</small></div>`).join('');
+    $('homeNextLabel').textContent=lvl===3?'黑海保級中':tierName(next);
+    const mp=minPlan(needed);$('homeCost').textContent=money(mp.cost);$('homeBlackCost').textContent=money(minPlan(Math.max(0,threshold(3)-points)).cost);$('homePlan').textContent=lvl===3?'已達最高等級，建議改看保級預測。':`${planLabel(mp)}，理論上獲得至少 ${fmt(needed)} 點。`;
+    $('homeReviewDate').textContent=review;$('homeReviewTier').textContent=tierName(level(rolling(review,state.records,true)));
+    $('homeReviewDesc').textContent=`假設不再新增消費，${review} 定級時計入 ${fmt(rolling(review,state.records,true))} 點。`;
+    const latest=[...state.records].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3);
+    $('homeRecent').innerHTML=latest.length?latest.map(recordHTML).join(''):empty();
+  }
+  function renderRecords(){
+    const now=localISO(),cutoff=subtractMonths(now,12);
+    $('historySpend').textContent=money(state.records.filter(r=>r.channel!=='adjust'&&r.date<=now).reduce((a,r)=>a+r.amount,0));
+    $('historyPoints').textContent=fmt(rolling(now));
+    const query=$('searchRecords').value.trim().toLowerCase(),filter=$('filterRecords').value;
+    const data=[...state.records].filter(r=>{
+      if(query&&!(`${r.store} ${r.note} ${r.date}`).toLowerCase().includes(query))return false;
+      if(filter==='active')return r.date>=cutoff&&r.date<=now;
+      if(filter==='expired')return r.date<cutoff;
+      if(filter==='future')return r.date>now;
+      return true;
+    }).sort((a,b)=>b.date.localeCompare(a.date));
+    $('recordsList').innerHTML=data.length?data.map(recordHTML).join(''):empty(state.records.length?'沒有符合篩選條件的紀錄':'還沒有消費紀錄',!state.records.length);
+    $('recordsCount').textContent=`共顯示 ${fmt(data.length)} 筆；完整記錄 ${fmt(state.records.length)} 筆。`;
+  }
+  function renderTiers(){
+    const now=localISO(),points=rolling(now),lv=level(points),ach=achievements();
+    $('tierBadge').textContent='目前推估：'+tierName(lv);
+    $('tierCards').innerHTML=names.map((n,i)=>{
+      const unlocked=i===0||ach.first[i]!=null,active=i===lv,remain=Math.max(0,threshold(i)-points);
+      return `<article class="tiercard ${colors[i]} ${unlocked?'':'locked'}"><div class="tiersymbol">${icons[i]}</div><div><div class="headingrow"><h3>${tierName(i)}</h3><span class="labelchip ${active?'good':unlocked?'':'faded'}">${active?'目前符合':unlocked?'達標過':'尚未解鎖'}</span></div><p>${['起點 · 歡迎入海','進階 · 習慣養成','資深 · 穩步累積','最高等級 · 黑海目標'][i]}</p><div class="range">${fmt(threshold(i))} <span style="font-size:11px;font-weight:500;color:#9ca89d">點起</span></div></div><div class="tier-card-footer"><span>${unlocked?(ach.first[i]?`首次達標：${ach.first[i]}`:'初始等級'):`目前還差 ${fmt(remain)} 點`}</span><b>${i===lv?'● 當前門檻':' '}</b></div></article>`;
+    }).join('');
+    $('milestones').innerHTML=names.map((n,i)=>`<div class="milestone ${i===0||ach.first[i]?'achieved':''}"><div class="mline"><i class="mdot"></i></div><div><b>${tierName(i)}</b><small>${i===0?'起點':ach.first[i]?`首次達標 ${ach.first[i]} · ${fmt(threshold(i))} 點`:`尚未達到 ${fmt(threshold(i))} 點門檻`}</small></div></div>`).join('');
+  }
+  function buildPlanRecords(){
+    const rows=[],months=24,begin=plan.start+'-01';
+    for(let k=0;k<months;k++){
+      const month=addMonths(begin,k);
+      for(let j=0;j<plan.visits;j++){
+        const lastDay=new Date(parseDate(month).getFullYear(),parseDate(month).getMonth()+1,0).getDate();
+        const day=Math.min(lastDay,Math.max(1,Math.floor((j+1)*lastDay/(plan.visits+1))));
+        const date=month.slice(0,7)+'-'+String(day).padStart(2,'0');
+        if(date<=localISO())continue;
+        rows.push({id:`scenario-${k}-${j}`,date,amount:plan.amount,channel:'dinein',extra:0,actual:null,store:'模擬消費',note:''});
+      }
+    }
+    return rows;
+  }
+  function renderForecast(){
+    const now=localISO(),p=rolling(now),lv=level(p),target=threshold(Math.min(lv+1,3));
+    $('forecastCurrent').textContent=fmt(p);
+    $('forecastGap').textContent=lv===3?'已達成':fmt(Math.max(0,target-p));
+    $('forecastGapLabel').textContent=lv===3?'黑海會員的保級進度':'距離'+tierName(lv+1);
+    const fut=[],begin=nextReview();
+    for(let i=0;i<24;i++){
+      const date=addMonths(begin,i),value=rolling(date,state.records,true);fut.push({date,value,lvl:level(value)});
+    }
+    let risk=lv===0?null:fut.find(x=>x.value<threshold(lv));
+    $('forecastRisk').textContent=lv===0?'尚未升級':risk?risk.date.slice(0,7):'24 個月內無';
+    $('forecastRiskDesc').textContent=lv===0?'紅海沒有更低等級':risk?'首次低於目前等級門檻':'按已記錄資料推算';
+    $('noSpendTitle').textContent=lv===0?'目前尚未達到銀海門檻':risk?`若不再消費，${risk.date} 有保級門檻風險`:'未來 24 個月內未見門檻風險';
+    $('noSpendDescription').textContent=lv===0?'從紅海開始累積後，就能看到具體的保級風險日':`目前為${tierName(lv)}門檻 ${fmt(threshold(lv))} 點；風險日是門檻不足，不等於官方當日降級。`;
+    $('noSpendBadge').textContent=lv===0?'持續累積中':risk?'請注意到期':'暫無風險';
+    $('keepCostBox').hidden=!risk;
+    if(risk){const gap=Math.max(0,threshold(lv)-risk.value);$('keepCost').textContent=money(minPlan(gap).cost);$('keepCostDescription').textContent=`在 ${risk.date} 定級前補足至少 ${fmt(gap)} 點`;}
+    const nextExp=state.records.filter(r=>r.date<=now&&r.date>=subtractMonths(now,12)&&getPoints(r)>0).map(r=>({r,expiry:subtractMonths(r.date,-12)})).filter(x=>x.expiry>=now).sort((a,b)=>a.expiry.localeCompare(b.expiry)).slice(0,5);
+    $('expiryList').innerHTML=nextExp.length?nextExp.map(x=>`<div class="kv"><span>${safe(x.r.store||'消費紀錄')} · ${safe(x.r.date)}</span><b>${fmt(getPoints(x.r))} 點 · 約 ${x.expiry} 起移出</b></div>`).join(''):'<div class="tiny">尚無有效且會到期的正成長值紀錄，請先補登每筆消費。</div>';
+    const extras=buildPlanRecords(),scenario=[...state.records,...extras];
+    const monthlyGain=plan.visits*getPoints({amount:plan.amount,channel:'dinein',extra:0,actual:null});
+    $('fMonthly').textContent=fmt(monthlyGain);$('fHint').textContent=`每次 ${fmt(plan.visits?monthlyGain/plan.visits:0)} 點 × ${fmt(plan.visits)} 次`;
+    // The date of the first official-style monthly review at which a planned threshold is reached.
+    const upgrades=[];
+    for(let i=1;i<=3;i++){
+      if(lv>=i){upgrades.push({i,date:null,status:'已達目前門檻'});continue;}
+      const found=Array.from({length:25},(_,k)=>addMonths(begin,k)).find(d=>rolling(d,scenario,true)>=threshold(i));
+      upgrades.push({i,date:found||null,status:found?`預計 ${found} 定級達標`:'24 個月內未達門檻'});
+    }
+    $('upgradePredictions').innerHTML=upgrades.map(x=>`<div class="milestone ${x.date||x.status==='已達目前門檻'?'achieved':''}"><div class="mline"><i class="mdot"></i></div><div><b>${tierName(x.i)}</b><small>${safe(x.status)}</small></div></div>`).join('');
+    const max=Math.max(1,...fut.slice(0,12).map(x=>x.value),...Array.from({length:12},(_,i)=>rolling(addMonths(begin,i),scenario,true)));
+    $('forecastRows').innerHTML=fut.slice(0,12).map(x=>{
+      const pp=rolling(x.date,scenario,true);const ls=level(x.value),lp=level(pp);
+      return `<tr><td class="num"><b>${x.date.slice(0,7)}</b></td><td><b>${fmt(x.value)}</b><span class="barpair"><i style="width:${Math.max(2,x.value/max*100)}%"></i></span></td><td><b>${fmt(pp)}</b><span class="barpair"><i class="plan" style="width:${Math.max(2,pp/max*100)}%"></i></span></td><td><span class="labelchip ${lp>ls?'good':''}">${tierName(lp)}</span><div class="tiny" style="font-size:10px">停止消費：${names[ls]}</div></td></tr>`;
+    }).join('');
+  }
+  function renderSettings(){const s=state.settings;for(const [field,key] of [['sSilver','silver'],['sGold','gold'],['sBlack','black'],['sUnit','unit'],['sThreshold','threshold'],['sBonus','bonus']])$(field).value=s[key];$('settingRecordCount').textContent=fmt(state.records.length)+' 筆';storageUI();}
+  function renderHints(){const s=state.settings;$('hintUnit').textContent=fmt(s.unit)+' 元 = 1 點';$('hintBonus').textContent=`${money(s.threshold)} 加 ${fmt(s.bonus)} 點`;}
+  function render(){renderHome();renderRecords();renderTiers();renderForecast();renderSettings();renderHints();}
+  function navigate(to){
+    const valid=['home','records','entry','tiers','forecast','settings'];if(!valid.includes(to))to='home';currentPage=to;
+    document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+to));
+    const active=to==='entry'?'records':to;document.querySelectorAll('[data-page].navbtn,[data-page].mobbtn').forEach(x=>{const match=x.dataset.page===active;x.classList.toggle('active',match);if(match)x.setAttribute('aria-current','page');else x.removeAttribute('aria-current');});
+    if(location.hash!=='#'+to)history.replaceState(null,'','#'+to);
+    window.scrollTo({top:0,behavior:'instant'});
+  }
+  function resetEntry(){editId=null;$('recordForm').reset();$('rDate').value=localISO();$('rAmount').value=750;$('rExtra').value=0;$('rActual').value='';$('entryTitle').textContent='新增一筆消費';$('saveRecord').textContent='儲存紀錄';renderEntryPreview();}
+  function renderEntryPreview(){const amount=Math.max(0,int($('rAmount').value)),extra=Math.max(0,int($('rExtra').value)),channel=$('rChannel').value,actual=$('rActual').value.trim()===''?null:int($('rActual').value);const r={amount,extra,channel,actual};const value=getPoints(r),s=state.settings,base=Math.floor(amount/s.unit);const bonus=channel==='dinein'&&amount>=s.threshold?s.bonus:0;$('livePoints').textContent=(value<0?'':'+' )+fmt(value);$('calcDescription').textContent=actual!==null?'使用你填入的官方實際點數':`基本 ${fmt(base)} + 堂食 ${fmt(bonus)} + 活動 ${fmt(extra)} 點`;}
+  function saveEntry(evt){evt.preventDefault();const date=$('rDate').value,amount=int($('rAmount').value,-1),channel=$('rChannel').value,extra=int($('rExtra').value,-1),str=$('rActual').value.trim(),actual=str===''?null:int(str,NaN);if(!validDate(date)||amount<0||amount>100000000||extra<0||extra>1000000||(actual!==null&&(!Number.isFinite(actual)||Math.abs(actual)>1000000))||(actual!==null&&actual<0&&channel!=='adjust'))return toast('請檢查日期、消費金額及點數');if(channel==='adjust'&&actual===null&&amount===0&&extra===0)return toast('活動／校正請填入實際成長值或活動加點');
+    const r={id:editId||cryptoId(),date,amount,channel,extra,actual,store:$('rStore').value.trim().slice(0,70),note:$('rNote').value.trim().slice(0,240)};
+    if(editId){const i=state.records.findIndex(x=>x.id===editId);if(i<0)return toast('找不到編輯的紀錄');state.records[i]=r;}else state.records.push(r);
+    save();render();resetEntry();navigate('records');toast('已儲存消費紀錄');
+  }
+  function editRecord(id){const r=state.records.find(x=>x.id===id);if(!r)return toast('找不到這筆紀錄');editId=r.id;$('entryTitle').textContent='編輯消費紀錄';$('saveRecord').textContent='儲存修改';$('rDate').value=r.date;$('rAmount').value=r.amount;$('rChannel').value=r.channel;$('rStore').value=r.store;$('rExtra').value=r.extra;$('rActual').value=r.actual??'';$('rNote').value=r.note;renderEntryPreview();navigate('entry');}
+  function deleteRecord(id){const r=state.records.find(x=>x.id===id);if(!r)return;if(!confirm(`確定刪除 ${r.date} 的 ${r.store||'消費紀錄'}？此操作無法復原。`))return;state.records=state.records.filter(x=>x.id!==id);save();render();toast('已刪除紀錄');}
+  function saveSettings(evt){evt.preventDefault();const s={silver:int($('sSilver').value),gold:int($('sGold').value),black:int($('sBlack').value),unit:int($('sUnit').value),threshold:int($('sThreshold').value),bonus:int($('sBonus').value)};if(!(s.silver>0&&s.gold>s.silver&&s.black>s.gold&&s.unit>0&&s.threshold>0&&s.bonus>=0)||s.black>10000000||s.threshold>1000000||s.bonus>1000000||s.unit>10000)return toast('請確認紅＜銀＜金＜黑的門檻順序與輸入範圍');state.settings=s;save();render();toast('計算規則已更新');}
+  function updatePlan(evt){evt?.preventDefault();const visits=int($('fVisits').value,-1),amount=int($('fAmount').value,-1),start=$('fStart').value;if(visits<0||visits>60||amount<0||amount>10000000||!/^[0-9]{4}-(0[1-9]|1[0-2])$/.test(start)||start<localISO().slice(0,7)||start>addMonths(localISO(),24).slice(0,7))return toast('請輸入合理的消費次數、金額和起始月份');plan={visits,amount,start};state.plan=plan;save();renderForecast();toast('預測已儲存，未建立實際消費紀錄');}
+  function download(content,name,type){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+  const dateStamp=()=>localISO().replaceAll('-','');
+  function exportJSON(){download(JSON.stringify({...state,exportedAt:new Date().toISOString()},null,2),`海底撈成長值備份_${dateStamp()}.json`,'application/json;charset=utf-8');toast('已產生 JSON 備份');}
+  function csvSafe(v){let s=String(v??'');if(/^[\s]*[=+@\-\t\r]/.test(s))s="'"+s;return '"'+s.replaceAll('"','""')+'"';}
+  function exportCSV(){const rows=[['日期','門市','類型','金額','活動點數','官方點數','紀錄成長值','備註'],...[...state.records].sort((a,b)=>b.date.localeCompare(a.date)).map(r=>[r.date,r.store,r.channel,r.amount,r.extra,r.actual??'',getPoints(r),r.note])];download('\ufeff'+rows.map(a=>a.map(csvSafe).join(',')).join('\r\n'),`海底撈消費紀錄_${dateStamp()}.csv`,'text/csv;charset=utf-8');toast('已產生 CSV 檔案');}
+  async function importFile(e){const file=e.target.files?.[0];if(!file)return;try{if(file.size>15*1024*1024)throw Error('備份檔過大');const obj=JSON.parse(await file.text());const next=normalize(obj);if(!confirm(`即將匯入 ${next.records.length} 筆紀錄並覆蓋目前資料（目前 ${state.records.length} 筆）。\n\n舊版基準點數不會匯入，從 0 點依消費紀錄重算。確定繼續？`))return;state=next;save();render();navigate('home');toast('已匯入紀錄，並從 0 點重新計算');}catch(err){toast('無法匯入：'+(err.message||'資料格式錯誤'));}finally{e.target.value='';}}
+  function erase(){if(!confirm('確定刪除所有消費紀錄與設定？無法復原，建議先備份。'))return;if(!confirm('最後確認：真的要將本機資料全部清空，從 0 點重新開始？'))return;state=clone(DEFAULT);save();render();resetEntry();navigate('home');toast('資料已清空');}
+  document.addEventListener('click',e=>{const go=e.target.closest('[data-page]');if(go){if(go.dataset.page==='entry')resetEntry();navigate(go.dataset.page);return;}const edit=e.target.closest('[data-edit]');if(edit){editRecord(edit.dataset.edit);return;}const del=e.target.closest('[data-delete]');if(del){deleteRecord(del.dataset.delete);}});
+  $('recordForm').addEventListener('submit',saveEntry);$('recordForm').addEventListener('input',renderEntryPreview);$('recordForm').addEventListener('change',renderEntryPreview);$('resetRecord').addEventListener('click',resetEntry);
+  $('searchRecords').addEventListener('input',renderRecords);$('filterRecords').addEventListener('change',renderRecords);
+  $('settingsForm').addEventListener('submit',saveSettings);$('forecastForm').addEventListener('submit',updatePlan);$('fVisits').addEventListener('input',()=>{const n=Math.max(0,int($('fVisits').value)),amount=Math.max(0,int($('fAmount').value));$('fMonthly').textContent=fmt(n*getPoints({amount,channel:'dinein',extra:0,actual:null}));});$('fAmount').addEventListener('input',()=>{const n=Math.max(0,int($('fVisits').value)),amount=Math.max(0,int($('fAmount').value));$('fMonthly').textContent=fmt(n*getPoints({amount,channel:'dinein',extra:0,actual:null}));});
+  $('exportCSV').addEventListener('click',exportCSV);$('settingCSV').addEventListener('click',exportCSV);$('exportJSON').addEventListener('click',exportJSON);$('settingJSON').addEventListener('click',exportJSON);$('settingImport').addEventListener('click',()=>$('importFile').click());$('importFile').addEventListener('change',importFile);$('settingErase').addEventListener('click',erase);
+  window.addEventListener('hashchange',()=>navigate(location.hash.slice(1)));
+  load();$('fStart').value=plan.start;$('fVisits').value=plan.visits;$('fAmount').value=plan.amount;resetEntry();render();navigate(location.hash.slice(1)||'home');
+})();
+</script>
+</body>
+</html>
